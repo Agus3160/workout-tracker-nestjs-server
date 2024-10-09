@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvService } from './env/env.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { MuscleGroupModule } from './muscle-group/muscle-group.module';
+import { ExerciseTypeModule } from './exercise-type/exercise-type.module';
 
 @Module({
   imports: [
@@ -28,7 +30,9 @@ import { AuthModule } from './auth/auth.module';
       }),
     }),
     UserModule,
-    AuthModule
+    AuthModule,
+    MuscleGroupModule,
+    ExerciseTypeModule
   ],
   providers: [],
 })
