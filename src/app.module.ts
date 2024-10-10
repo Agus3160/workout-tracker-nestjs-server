@@ -8,6 +8,8 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { MuscleGroupModule } from './muscle-group/muscle-group.module';
 import { ExerciseTypeModule } from './exercise-type/exercise-type.module';
+import { ExerciseModule } from './exercise/exercise.module';
+import { WorkoutModule } from './workout/workout.module';
 
 @Module({
   imports: [
@@ -19,6 +21,11 @@ import { ExerciseTypeModule } from './exercise-type/exercise-type.module';
       },
     }),
     EnvModule,
+    UserModule,
+    AuthModule,
+    ExerciseTypeModule,
+    ExerciseModule,
+    MuscleGroupModule,
     TypeOrmModule.forRootAsync({
       imports: [EnvModule], 
       inject: [EnvService],
@@ -29,10 +36,8 @@ import { ExerciseTypeModule } from './exercise-type/exercise-type.module';
         autoLoadEntities: true,
       }),
     }),
-    UserModule,
-    AuthModule,
-    MuscleGroupModule,
-    ExerciseTypeModule
+    WorkoutModule,
+
   ],
   providers: [],
 })

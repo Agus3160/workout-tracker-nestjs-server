@@ -5,11 +5,17 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from 'src/user/user.dto';
 import { CreateMuscleGroupDto } from 'src/muscle-group/muscle-group.dto';
 import { MuscleGroup } from 'src/entities/muscle-group.entity';
+import { CreateExerciseTypeDto } from 'src/exercise-type/exercise-type.dto';
+import { ExerciseType } from 'src/entities/exercise-type.entity';
+import { CreateExerciseDto } from 'src/exercise/exercise.dto';
+import { Exercise } from 'src/entities/exercise.entity';
 
 export async function seedData(dataSource: DataSource): Promise<void> {
   //REPOSITORIES
   const userRepo = dataSource.getRepository(User);
   const muscleGroupRepo = dataSource.getRepository(MuscleGroup);
+  const exerciseTypeRepo = dataSource.getRepository(ExerciseType);
+  const exerciseRepo = dataSource.getRepository(Exercise);
 
   //DATA
   const usersData: CreateUserDto[] = [
@@ -60,9 +66,62 @@ export async function seedData(dataSource: DataSource): Promise<void> {
     },
   ];
 
+  const exerciseTypes: CreateExerciseTypeDto[] = [
+    {
+      name: 'Cardio',
+      description:
+        'Exercises that increase your heart rate and improve cardiovascular endurance, such as running, cycling, and swimming.',
+    },
+    {
+      name: 'Strength',
+      description:
+        'Exercises focused on building muscle strength and endurance, typically involving resistance training, like weightlifting or bodyweight exercises.',
+    },
+    {
+      name: 'Flexibility',
+      description:
+        'Exercises that enhance the range of motion of muscles and joints, including stretching routines and yoga practices.',
+    },
+    {
+      name: 'Balance',
+      description:
+        'Exercises that improve stability and coordination, such as tai chi, balance drills, and stability ball workouts.',
+    },
+    {
+      name: 'Endurance',
+      description:
+        'Exercises designed to increase stamina and the ability to sustain prolonged physical activity, often overlapping with cardio exercises.',
+    },
+  ];
+
+  const exercises: CreateExerciseDto[] = [
+    {
+      name: 'Bench Press',
+      description:
+        'The bench press is a compound exercise that targets the chest, arms, and back.',
+      imageUrl:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Bench_press_1.jpg/800px-Bench_press_1.jpg',
+      tutorialUrl: 'https://en.wikipedia.org/wiki/Bench_press',
+    },
+  ];
+
+  let exercisesTypes: ExerciseType[] = [];
+  let muscleGroups: MuscleGroup[] = [];
+
   //SEED DATA
-  for(const muscleGroup of muscleGroupData) {
-    await muscleGroupRepo.save(muscleGroup);
+  for (const exerciseType of exerciseTypes) {
+    exercisesTypes.push(await exerciseTypeRepo.save(exerciseType));
+  }
+  for (const muscleGroup of muscleGroupData) {
+    muscleGroups.push(await muscleGroupRepo.save(muscleGroup));
+  }
+
+  for (const exercise of exercises) {
+    await exerciseRepo.save({
+      ...exercise,
+      exerciseTypes: [exercisesTypes[1]],
+      muscleGroups: [muscleGroups[0], muscleGroups[3], muscleGroups[4]],
+    });
   }
   for (const user of usersData) {
     await userRepo.save(user);
