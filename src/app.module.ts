@@ -9,7 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { MuscleGroupModule } from './muscle-group/muscle-group.module';
 import { ExerciseTypeModule } from './exercise-type/exercise-type.module';
 import { ExerciseModule } from './exercise/exercise.module';
-import { WorkoutModule } from './workout/workout.module';
+import { WorkoutPlanModule } from './workout-plan/workout-plan.module';
+import { WorkoutDetailModule } from './workout-detail/workout-detail.module';
 
 @Module({
   imports: [
@@ -36,8 +37,8 @@ import { WorkoutModule } from './workout/workout.module';
         autoLoadEntities: true,
       }),
     }),
-    WorkoutModule,
-
+    WorkoutPlanModule,
+    WorkoutDetailModule,
   ],
   providers: [],
 })

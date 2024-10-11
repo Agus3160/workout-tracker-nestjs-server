@@ -23,6 +23,6 @@ export const queryFindAllBaseDtoSchema = z.object({
     .transform((value) => value === 'true')
     .optional(),
   order: z.enum(['ASC', 'DESC'], { errorMap: () => ({ message: 'Invalid order' }) }).optional().default('ASC'),
-  orderBy: z.string().optional(),
+  orderBy: z.string().optional().default("createdAt"),
 });
 export type QueryFyndAllBaseDtoType = z.infer<typeof queryFindAllBaseDtoSchema>;

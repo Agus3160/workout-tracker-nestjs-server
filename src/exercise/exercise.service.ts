@@ -42,8 +42,8 @@ export class ExerciseService {
   }
 
   async findAll(filter: ExerciseFindAllFilterDto) {
-    const { name, description, muscleGroups, exerciseTypes, ...baseFilter } = filter;
-    const commonsFilter = getCommonsFilterValues(baseFilter);
+    console.log(filter);
+    const commonsFilter = getCommonsFilterValues(filter);
     const [exercisesEntities, count] =
       await this.exerciseRepository.findAndCount({
         ...commonsFilter,
@@ -53,14 +53,14 @@ export class ExerciseService {
         },
         where: {
           ...commonsFilter.where,
-          name: name ? Like(`%${filter.name}%`) : undefined,
-          description: description
+          name: filter.name ? Like(`%${filter.name}%`) : undefined,
+          description: filter.description
             ? Like(`%${filter.description}%`)
             : undefined,
           muscleGroups:
-            muscleGroups && muscleGroups.length > 0 ? { id: In(muscleGroups) } : undefined,
+          filter.muscleGroups && filter.muscleGroups.length > 0 ? { id: In(filter.muscleGroups) } : undefined,
           exerciseTypes:
-            exerciseTypes && exerciseTypes.length > 0 ? { id: In(exerciseTypes) } : undefined,
+          filter.exerciseTypes && filter.exerciseTypes.length > 0 ? { id: In(filter.exerciseTypes) } : undefined,
         },
       });
     const exercises = exercisesEntities.map((exercise) =>
@@ -69,8 +69,8 @@ export class ExerciseService {
     return {
       values: exercises,
       total: count,
-      skip: baseFilter.skip,
-      take: baseFilter.take,
+      skip: filter.skip,
+      take: filter.take,
     };
   }
 

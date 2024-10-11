@@ -1,7 +1,8 @@
 import { BaseEntityUtil } from 'src/util/base/entity';
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { ExerciseType } from './exercise-type.entity';
 import { MuscleGroup } from './muscle-group.entity';
+import { WorkoutDetail } from './workout-detail.entity';
 
 @Entity()
 export class Exercise extends BaseEntityUtil {
@@ -24,4 +25,8 @@ export class Exercise extends BaseEntityUtil {
   @ManyToMany(() => MuscleGroup, (muscleGroup) => muscleGroup.exercises)
   @JoinTable()
   muscleGroups: MuscleGroup[];
+
+  @OneToMany(() => WorkoutDetail, workoutDetail => workoutDetail.exercise)
+  @JoinColumn()
+  workoutDetails: WorkoutDetail[];
 } 

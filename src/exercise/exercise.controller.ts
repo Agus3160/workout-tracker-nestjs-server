@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes } from '@nestjs/common';
 import { ExerciseService } from './exercise.service';
-import { ExerciseFindAllFilterDto, exerciseFindAllFilterDtoSchema } from './exercise.dto';
+import { CreateExerciseDto, ExerciseFindAllFilterDto, exerciseFindAllFilterDtoSchema } from './exercise.dto';
 import { ZodValidationPipe } from 'src/util/pipe/zod-validation.pipe';
 
 @Controller('exercise')
@@ -8,7 +8,7 @@ export class ExerciseController {
   constructor(private readonly exerciseService: ExerciseService) {}
 
   @Post()
-  create(@Body() createExerciseDto) {
+  create(@Body() createExerciseDto:CreateExerciseDto) {
     return this.exerciseService.create(createExerciseDto);
   }
 
